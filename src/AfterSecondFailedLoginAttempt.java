@@ -3,7 +3,7 @@ import exceptions.AccountRevokedException;
 
 public class AfterSecondFailedLoginAttempt extends LoginServiceState {
     @Override
-    public void login(IAccount account, String password) {
+    public void login(LoginService context, IAccount account, String password) {
 
         if (account.passwordMatches(password)){
 

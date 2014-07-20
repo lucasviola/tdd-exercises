@@ -2,8 +2,9 @@ import exceptions.AccountLoginLimitReachedException;
 import exceptions.AccountRevokedException;
 
 public class AwaitingFirstLoginAttempt extends LoginServiceState {
+
     @Override
-    public void login(IAccount account, String password) {
+    public void login(LoginService context, IAccount account, String password) {
 
         if (account.passwordMatches(password)){
 
@@ -16,13 +17,7 @@ public class AwaitingFirstLoginAttempt extends LoginServiceState {
             account.setLoggedIn(true);
         }
         else {
-
-            if(previousAccountId.equals(account.getId()))
-                ++failedAttempts;
-            else{
-                failedAttempts = 1;
-                previousAccountId = account.getId();
-            }
+                context.setState(new AfterFirstFailedLoginAttempt(account.getId()));
         }
 
         if (failedAttempts == 3)

@@ -2,8 +2,15 @@ import exceptions.AccountLoginLimitReachedException;
 import exceptions.AccountRevokedException;
 
 public class AfterFirstFailedLoginAttempt extends LoginServiceState {
+    private String previousAccountId;
+
+    public AfterFirstFailedLoginAttempt(String previousAccountId) {
+        this.previousAccountId = previousAccountId;
+        failedAttempts = 1;
+    }
+
     @Override
-    public void login(IAccount account, String password) {
+    public void login(LoginService context, IAccount account, String password) {
 
         if (account.passwordMatches(password)){
 

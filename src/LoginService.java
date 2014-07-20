@@ -18,8 +18,11 @@ public class LoginService {
         if(account == null)
             throw new AccountNotFoundInRepositoryException();
 
-        state.login(account, password);
+        state.login(this, account, password);
     }
 
 
+    public void setState(LoginServiceState state) {
+        this.state = state;
+    }
 }

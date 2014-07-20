@@ -19,7 +19,7 @@ public class LoginServiceTest {
         accountRepository = mock(IAccountRepository.class);
         service = new LoginService(accountRepository);
         when(accountRepository.find(anyString())).thenReturn(account);
-
+        when(account.getId()).thenReturn("lucas");
 
     }
 

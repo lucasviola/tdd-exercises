@@ -6,4 +6,5 @@ public interface IAccount {
     void setRevoked(boolean value);
     boolean isLoggedIn();
     boolean isRevoked();
+    String getId();
 }

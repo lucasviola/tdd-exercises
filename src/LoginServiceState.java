@@ -17,6 +17,7 @@ public abstract class LoginServiceState {
                 throw new AccountRevokedException();
 
             account.setLoggedIn(true);
+            context.setState(new AwaitingFirstLoginAttempt());
         }
         else {
             handleIncorrectPassword(context, account, password);

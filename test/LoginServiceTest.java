@@ -91,4 +91,18 @@ public class LoginServiceTest {
 
         service.login("lucas", "pass");
     }
+
+    @Test
+    public void shouldResetBackToInitialStateAfterSuccessfulLogin() throws Exception {
+        when(account.passwordMatches(anyString())).thenReturn(false);
+        service.login("lucas", "pass");
+        service.login("lucas", "pass");
+        when(account.passwordMatches(anyString())).thenReturn(true);
+        service.login("lucas", "pass");
+        when(account.passwordMatches(anyString())).thenReturn(false);
+        service.login("lucas", "pass");
+
+        verify(account, never()).setRevoked(true);
+
+    }
 }

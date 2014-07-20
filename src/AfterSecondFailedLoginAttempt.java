@@ -2,6 +2,14 @@ import exceptions.AccountLoginLimitReachedException;
 import exceptions.AccountRevokedException;
 
 public class AfterSecondFailedLoginAttempt extends LoginServiceState {
+    private String previousAccountId;
+
+    public AfterSecondFailedLoginAttempt(String previousAccountId) {
+
+        this.previousAccountId = previousAccountId;
+        failedAttempts = 2;
+    }
+
     @Override
     public void login(LoginService context, IAccount account, String password) {
 
@@ -16,17 +24,13 @@ public class AfterSecondFailedLoginAttempt extends LoginServiceState {
             account.setLoggedIn(true);
         }
         else {
-
-            if(previousAccountId.equals(account.getId()))
-                ++failedAttempts;
+            if(previousAccountId.equals(account.getId())) {
+                account.setRevoked(true);
+                context.setState(new AwaitingFirstLoginAttempt());
+            }
             else{
-                failedAttempts = 1;
-                previousAccountId = account.getId();
+                context.setState(new AfterFirstFailedLoginAttempt(account.getId()));
             }
         }
-
-        if (failedAttempts == 3)
-            account.setRevoked(true);
-
     }
 }

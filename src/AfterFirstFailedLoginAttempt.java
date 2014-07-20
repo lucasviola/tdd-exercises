@@ -25,15 +25,11 @@ public class AfterFirstFailedLoginAttempt extends LoginServiceState {
         else {
 
             if(previousAccountId.equals(account.getId()))
-                ++failedAttempts;
+               context.setState(new AfterSecondFailedLoginAttempt(account.getId()));
             else{
-                failedAttempts = 1;
                 previousAccountId = account.getId();
             }
         }
-
-        if (failedAttempts == 3)
-            account.setRevoked(true);
 
     }
 }

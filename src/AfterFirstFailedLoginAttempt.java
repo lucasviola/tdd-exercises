@@ -10,26 +10,10 @@ public class AfterFirstFailedLoginAttempt extends LoginServiceState {
     }
 
     @Override
-    public void login(LoginService context, IAccount account, String password) {
-
-        if (account.passwordMatches(password)){
-
-            if(account.isLoggedIn())
-                throw new AccountLoginLimitReachedException();
-
-            if(account.isRevoked())
-                throw new AccountRevokedException();
-
-            account.setLoggedIn(true);
-        }
-        else {
-
-            if(previousAccountId.equals(account.getId()))
-               context.setState(new AfterSecondFailedLoginAttempt(account.getId()));
-            else{
-                previousAccountId = account.getId();
-            }
-        }
-
+    public void handleIncorrectPassword(LoginService context, IAccount account, String password) {
+        if(previousAccountId.equals(account.getId()))
+            context.setState(new AfterSecondFailedLoginAttempt(account.getId()));
+        else
+            previousAccountId = account.getId();
     }
 }

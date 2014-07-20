@@ -7,7 +7,7 @@ public abstract class LoginServiceState {
     private String previousAccountId = "";
     private int failedAttempts;
 
-    public void login(LoginService context, IAccount account, String password) {
+    public void login(IAccount account, String password) {
 
         if (account.passwordMatches(password)){
 

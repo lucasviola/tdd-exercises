@@ -19,6 +19,10 @@ public class LoginService {
         if(account == null)
             throw new AccountNotFoundInRepositoryException();
 
+        verifyLoginAttempt(account, password);
+    }
+
+    private void verifyLoginAttempt(IAccount account, String password) {
         if (account.passwordMatches(password)){
 
             if(account.isLoggedIn())
@@ -41,5 +45,8 @@ public class LoginService {
 
         if (failedAttempts == 3)
             account.setRevoked(true);
+
     }
+
+
 }

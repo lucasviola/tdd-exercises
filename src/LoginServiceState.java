@@ -4,8 +4,8 @@ import exceptions.AccountRevokedException;
 
 public abstract class LoginServiceState {
 
-    private String previousAccountId;
-    private long failedAttempts;
+    private String previousAccountId = "";
+    private int failedAttempts;
 
     public void login(LoginService context, IAccount account, String password) {
 
